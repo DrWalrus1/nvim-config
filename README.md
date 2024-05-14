@@ -1,0 +1,3 @@
+Prereq
+
+- ripgrep (Homebrew)
