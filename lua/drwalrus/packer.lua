@@ -26,6 +26,7 @@ return require('packer').startup(function(use)
   use('nvim-treesitter/playground')
   use('theprimeagen/harpoon')
   
+  use('hrsh7th/cmp-cmdline')
   use {
   'VonHeikemen/lsp-zero.nvim',
   branch = 'v3.x',

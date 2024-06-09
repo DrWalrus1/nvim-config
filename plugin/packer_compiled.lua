@@ -79,6 +79,11 @@ _G.packer_plugins = {
     path = "/Users/lukelynch/.local/share/nvim/site/pack/packer/start/LuaSnip",
     url = "https://github.com/L3MON4D3/LuaSnip"
   },
+  ["cmp-cmdline"] = {
+    loaded = true,
+    path = "/Users/lukelynch/.local/share/nvim/site/pack/packer/start/cmp-cmdline",
+    url = "https://github.com/hrsh7th/cmp-cmdline"
+  },
   ["cmp-nvim-lsp"] = {
     loaded = true,
     path = "/Users/lukelynch/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp",
