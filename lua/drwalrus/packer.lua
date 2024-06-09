@@ -13,6 +13,7 @@ return require('packer').startup(function(use)
 	  requires = { {'nvim-lua/plenary.nvim'} }
   }
 
+  use 'nvim-tree/nvim-web-devicons'
   use({
 	  'rose-pine/neovim',
 	  as = 'rose-pine',
