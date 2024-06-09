@@ -1,1 +1,2 @@
-require("drwalrus/remap")
+require("drwalrus.remap")
+require("drwalrus.set")
