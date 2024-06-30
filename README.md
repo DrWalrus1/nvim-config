@@ -1,4 +1,4 @@
-# kickstart.nvim
+# Dr Walrus's nvim config
 
 ## Introduction
 
@@ -31,6 +31,9 @@ External Requirements:
   - If want to write Typescript, you need `npm`
   - If want to write Golang, you will need `go`
   - etc.
+- [Rust compiler](https://www.rust-lang.org/)
+- [Golang](https://go.dev/)
+- [Node JS](https://nodejs.org/en)
 
 > **NOTE**
 > See [Install Recipes](#Install-Recipes) for additional Windows and Linux specific notes
