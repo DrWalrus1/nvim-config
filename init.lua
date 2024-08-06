@@ -491,7 +491,6 @@ require('lazy').setup({
         gopls = {},
         pyright = {},
         -- rust_analyzer = {},
-        omnisharp = {},
         html = {},
         htmx = {},
         cssls = {},
@@ -538,7 +537,7 @@ require('lazy').setup({
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       require('mason-lspconfig').setup {
-        ensure_installed = { 'lua_ls', 'omnisharp', 'html', 'htmx', 'cssls', 'gopls', 'jsonls' },
+        ensure_installed = { 'lua_ls', 'html', 'htmx', 'cssls', 'gopls', 'jsonls' },
         handlers = {
           ['rust_analyzer'] = function() end,
 

@@ -29,11 +29,14 @@ return {
     local dapui = require 'dapui'
 
     dapui.setup()
+    dap.set_log_level 'TRACE'
 
-    dap.adapters.corelr = {
+    ---.NET----------------------------
+
+    dap.adapters.coreclr = {
       type = 'executable',
-      command = '/usr/local/bin/netcoredbg/netcoredbg',
-      args = { '--interpreter=vscode' },
+      command = 'netcoredbg',
+      args = { '--interpreter=vscode -- dotnet run' },
     }
 
     dap.configurations.cs = {
@@ -42,7 +45,23 @@ return {
         name = 'launch - netcoredbg',
         request = 'launch',
         program = function()
-          return vim.fn.input('Path to dll', vim.fn.getcwd() .. '/bin/Debug/', 'file')
+          return vim.fn.input('Path to dll: ', vim.fn.getcwd() .. '/bin/Debug/net8.0/', 'file')
+        end,
+        justMyCode = false,
+        stopAtEntry = false,
+        env = {
+          ASPNETCORE_ENVIRONMENT = function()
+            -- todo: request input from ui
+            return 'Development'
+          end,
+          ASPNETCORE_URLS = function()
+            -- todo: request input from ui
+            return 'http://localhost:5050'
+          end,
+        },
+        cwd = function()
+          -- todo: request input from ui
+          return vim.fn.getcwd()
         end,
       },
     }
@@ -54,7 +73,24 @@ return {
 
       -- You can provide additional configuration to the handlers,
       -- see mason-nvim-dap README for more information
-      handlers = {},
+      handlers = {
+        function(config)
+          -- all sources with no handler get passed here
+
+          -- Keep original functionality
+          require('mason-nvim-dap').default_setup(config)
+        end,
+        coreclr = function(config)
+          if vim.loop.os_uname().sysname == 'Darwin' then -- Check for MacOS
+            config.adapters = {
+              type = 'executable',
+              command = '/usr/local/netcoredbg/netcoredbg',
+              args = { '--interpreter=vscode' },
+            }
+          end
+          require('mason-nvim-dap').default_setup(config) -- don't forget this!
+        end,
+      },
 
       -- You'll need to check that you have the required things installed
       -- online, please don't ask me how to install them :)
