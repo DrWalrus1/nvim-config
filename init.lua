@@ -1,6 +1,7 @@
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
+
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.keymap.set('n', '<leader>pv', vim.cmd.Ex, { desc = '[P]roject [V]iew' })
@@ -197,21 +198,21 @@ require('lazy').setup({
       require('which-key').setup()
 
       -- Document existing key chains
-      require('which-key').add {
-        { '<leader>c', group = '[C]ode' },
-        { '<leader>c_', hidden = true },
-        { '<leader>d', group = '[D]ocument' },
-        { '<leader>d_', hidden = true },
-        { '<leader>h', group = 'Git [H]unk' },
-        { '<leader>h_', hidden = true },
-        { '<leader>r', group = '[R]ename' },
-        { '<leader>r_', hidden = true },
-        { '<leader>s', group = '[S]earch' },
-        { '<leader>s_', hidden = true },
-        { '<leader>t', group = '[T]oggle' },
-        { '<leader>t_', hidden = true },
-        { '<leader>w', group = '[W]orkspace' },
-        { '<leader>w_', hidden = true },
+      require('which-key').register {
+        { '<leader>c', name = '[C]ode' },
+        -- { '<leader>c_', hidden = true },
+        { '<leader>d', name = '[D]ocument' },
+        -- { '<leader>d_', hidden = true },
+        { '<leader>h', name = 'Git [H]unk' },
+        -- { '<leader>h_', hidden = true },
+        { '<leader>r', name = '[R]ename' },
+        -- { '<leader>r_', hidden = true },
+        { '<leader>s', name = '[S]earch' },
+        -- { '<leader>s_', hidden = true },
+        { '<leader>t', name = '[T]oggle' },
+        -- { '<leader>t_', hidden = true },
+        { '<leader>w', name = '[W]orkspace' },
+        -- { '<leader>w_', hidden = true },
         -- Visual mode
         { '<leader>h', desc = 'Git [H]unk', mode = 'v' },
       }
@@ -821,6 +822,7 @@ require('lazy').setup({
   --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
   -- { import = 'custom.plugins' },
 }, {
+  root = 'C:\\NotBackedUp\\plugins',
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
     -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
