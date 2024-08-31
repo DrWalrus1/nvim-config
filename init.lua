@@ -2,6 +2,15 @@
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 
+-- NOTE: for storing files in a not watched location at work
+function change_root_on_windows()
+  if package.config:sub(1, 1) ~= '/' then
+    return 'C:\\NotBackedUp\\plugins'
+  else
+    return nil
+  end
+end
+
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.keymap.set('n', '<leader>pv', vim.cmd.Ex, { desc = '[P]roject [V]iew' })
@@ -823,7 +832,7 @@ require('lazy').setup({
   --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
   -- { import = 'custom.plugins' },
 }, {
-  root = 'C:\\NotBackedUp\\plugins',
+  root = change_root_on_windows(),
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
     -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table

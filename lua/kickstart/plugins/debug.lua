@@ -27,8 +27,10 @@ return {
   config = function()
     local dap = require 'dap'
     local dapui = require 'dapui'
+    local dapvirtualtext = require 'nvim-dap-virtual-text'
 
     dapui.setup()
+    dapvirtualtext.setup()
     dap.set_log_level 'TRACE'
 
     ---.NET----------------------------
