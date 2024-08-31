@@ -20,7 +20,7 @@ return {
     -- Installs the debug adapters for you
     'williamboman/mason.nvim',
     'jay-babu/mason-nvim-dap.nvim',
-
+    'theHamsta/nvim-dap-virtual-text',
     -- Add your own debuggers here
     'leoluz/nvim-dap-go',
   },
