@@ -550,26 +550,88 @@ require('lazy').setup({
         ensure_installed = { 'lua_ls', 'html', 'htmx', 'cssls', 'gopls', 'jsonls' },
         handlers = {
           ['rust_analyzer'] = function() end,
+          ['volar'] = function()
+            require('lspconfig').volar.setup {
+              -- NOTE: Uncomment to enable volar in file types other than vue.
+              -- (Similar to Takeover Mode)
+
+              -- filetypes = { "vue", "javascript", "typescript", "javascriptreact", "typescriptreact", "json" },
+
+              -- NOTE: Uncomment to restrict Volar to only Vue/Nuxt projects. This will enable Volar to work alongside other language servers (tsserver).
+
+              -- root_dir = require("lspconfig").util.root_pattern(
+              --   "vue.config.js",
+              --   "vue.config.ts",
+              --   "nuxt.config.js",
+              --   "nuxt.config.ts"
+              -- ),
+              init_options = {
+                vue = {
+                  hybridMode = false,
+                },
+                -- NOTE: This might not be needed. Uncomment if you encounter issues.
+
+                -- typescript = {
+                --   tsdk = vim.fn.getcwd() .. "/node_modules/typescript/lib",
+                -- },
+              },
+              settings = {
+                typescript = {
+                  inlayHints = {
+                    enumMemberValues = {
+                      enabled = true,
+                    },
+                    functionLikeReturnTypes = {
+                      enabled = true,
+                    },
+                    propertyDeclarationTypes = {
+                      enabled = true,
+                    },
+                    parameterTypes = {
+                      enabled = true,
+                      suppressWhenArgumentMatchesName = true,
+                    },
+                    variableTypes = {
+                      enabled = true,
+                    },
+                  },
+                },
+              },
+            }
+          end,
+
           ['ts_ls'] = function()
-            -- 1. Import Mason Registry
-            local mason_registry = require 'mason-registry'
-            local vue_language_server_path = mason_registry.get_package('vue-language-server'):get_install_path() .. '/node_modules/@vue/language-server'
+            local mason_packages = vim.fn.stdpath 'data' .. '/mason/packages'
+            local volar_path = mason_packages .. '/vue-language-server/node_modules/@vue/language-server'
 
-            -- 2. Import lspconfig
-            local lspconfig = require 'lspconfig'
+            require('lspconfig').ts_ls.setup {
+              -- NOTE: To enable hybridMode, change HybrideMode to true above and uncomment the following filetypes block.
+              -- WARN: THIS MAY CAUSE HIGHLIGHTING ISSUES WITHIN THE TEMPLATE SCOPE WHEN TSSERVER ATTACHES TO VUE FILES
 
-            -- 3. Configure ts_ls for TypeScript and Vue
-            lspconfig.ts_ls.setup {
+              -- filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
               init_options = {
                 plugins = {
                   {
                     name = '@vue/typescript-plugin',
-                    location = vue_language_server_path,
-                    languages = { 'javascript', 'typescript', 'vue' },
+                    location = volar_path,
+                    languages = { 'vue' },
                   },
                 },
               },
-              filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'json' },
+              settings = {
+                typescript = {
+                  inlayHints = {
+                    includeInlayParameterNameHints = 'all',
+                    includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                    includeInlayFunctionParameterTypeHints = true,
+                    includeInlayVariableTypeHints = true,
+                    includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+                    includeInlayPropertyDeclarationTypeHints = true,
+                    includeInlayFunctionLikeReturnTypeHints = true,
+                    includeInlayEnumMemberValueHints = true,
+                  },
+                },
+              },
             }
           end,
 
