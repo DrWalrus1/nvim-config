@@ -502,7 +502,7 @@ require('lazy').setup({
         pyright = {},
         -- rust_analyzer = {},
         html = {},
-        htmx = {},
+        -- htmx = {},
         cssls = {},
         jsonls = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
@@ -550,6 +550,28 @@ require('lazy').setup({
         ensure_installed = { 'lua_ls', 'html', 'htmx', 'cssls', 'gopls', 'jsonls' },
         handlers = {
           ['rust_analyzer'] = function() end,
+          ['ts_ls'] = function()
+            -- 1. Import Mason Registry
+            local mason_registry = require 'mason-registry'
+            local vue_language_server_path = mason_registry.get_package('vue-language-server'):get_install_path() .. '/node_modules/@vue/language-server'
+
+            -- 2. Import lspconfig
+            local lspconfig = require 'lspconfig'
+
+            -- 3. Configure ts_ls for TypeScript and Vue
+            lspconfig.ts_ls.setup {
+              init_options = {
+                plugins = {
+                  {
+                    name = '@vue/typescript-plugin',
+                    location = vue_language_server_path,
+                    languages = { 'javascript', 'typescript', 'vue' },
+                  },
+                },
+              },
+              filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'json' },
+            }
+          end,
 
           function(server_name)
             local server = servers[server_name] or {}
