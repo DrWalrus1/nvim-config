@@ -1,4 +1,5 @@
-return { -- LSP Configuration & Plugins
+-- LSP Configuration & Plugins
+return {
     'neovim/nvim-lspconfig',
     dependencies = { -- Automatically install LSPs and related tools to stdpath for Neovim
     {
