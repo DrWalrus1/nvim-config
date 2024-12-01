@@ -16,6 +16,7 @@ vim.g.maplocalleader = ' '
 vim.keymap.set('n', '<leader>pv', vim.cmd.Ex, { desc = '[P]roject [V]iew' })
 vim.keymap.set('n', '<leader>tn', vim.cmd.tabNext, { desc = '[T]ab [N]ext' })
 vim.keymap.set('n', '<leader>tp', vim.cmd.tabprevious, { desc = '[T]ab [P]revious' })
+vim.keymap.set('n', 'ya', ':%y+<CR>', { desc = '[Y]ank [A]ll lines to system clipboard' })
 
 vim.g.netrw_banner = 0
 -- Set to true if you have a Nerd Font installed and selected in the terminal
@@ -340,7 +341,7 @@ require('lazy').setup({
     end,
   },
 
-  require('config.lspconfig'),
+  require 'config.lspconfig',
 
   { -- Autoformat
     'stevearc/conform.nvim',
