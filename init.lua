@@ -483,7 +483,12 @@ require('lazy').setup({
           --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
         },
         sources = {
-          { name = 'nvim_lsp' },
+          {
+            name = 'nvim_lsp',
+            entry_filter = function(entry, ctx)
+              return require('cmp').lsp.CompletionItemKind.Text ~= entry:get_kind()
+            end,
+          },
           { name = 'luasnip' },
           { name = 'path' },
         },
