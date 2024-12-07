@@ -2,7 +2,7 @@
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 
--- NOTE: for storing files in a not watched location at work
+--  NOTE: for storing files in a not watched location at work
 local function change_root_on_windows()
   if package.config:sub(1, 1) ~= '/' then
     return 'C:\\NotBackedUp\\plugins'
@@ -51,8 +51,8 @@ require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
   'tpope/vim-fugitive',
-  'ThePrimeagen/vim-be-good',
   'tpope/vim-surround',
+  'ThePrimeagen/vim-be-good',
   -- TODO: add harpoon
 
   -- NOTE: Plugins can also be added by using a table,
@@ -236,8 +236,6 @@ require('lazy').setup({
       end, { desc = '[S]earch [N]eovim files' })
     end,
   },
-
-  require 'config.lspconfig',
 
   { -- Autoformat
     'stevearc/conform.nvim',
@@ -509,7 +507,7 @@ require('lazy').setup({
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
-  -- { import = 'custom.plugins' },
+  { import = 'plugins' },
 }, {
   root = change_root_on_windows(),
   ui = {

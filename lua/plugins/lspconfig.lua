@@ -1,4 +1,5 @@
 -- LSP Configuration & Plugins
+--- @type LazySpec
 return {
   'neovim/nvim-lspconfig',
   dependencies = { -- Automatically install LSPs and related tools to stdpath for Neovim
