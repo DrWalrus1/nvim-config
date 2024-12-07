@@ -11,8 +11,8 @@ local function change_root_on_windows()
   end
 end
 
-require('config.vimoptions').loadoptions()
-require('config.keymaps').loadkeymaps()
+require('vimoptions').loadoptions()
+require('keymaps').loadkeymaps()
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
