@@ -278,6 +278,39 @@ return {
           }
         end,
 
+        ['emmet_ls'] = function()
+          -- local configs = require 'lspconfig/configs'
+          capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+          require('lspconfig').emmet_ls.setup {
+            -- on_attach = on_attach,
+            capabilities = capabilities,
+            filetypes = {
+              'css',
+              'eruby',
+              'html',
+              'javascript',
+              'javascriptreact',
+              'less',
+              'sass',
+              'typescript',
+              'scss',
+              'svelte',
+              'pug',
+              'typescriptreact',
+              'vue',
+            },
+            init_options = {
+              html = {
+                options = {
+                  -- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
+                  ['bem.enabled'] = true,
+                },
+              },
+            },
+          }
+        end,
+
         ['ts_ls'] = function()
           local mason_packages = vim.fn.stdpath 'data' .. '/mason/packages'
           local volar_path = mason_packages .. '/vue-language-server/node_modules/@vue/language-server'
