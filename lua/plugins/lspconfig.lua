@@ -143,16 +143,42 @@ return {
     --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
     --  - settings (table): Override the default settings passed when initializing the server.
     --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+    local mason_packages = vim.fn.stdpath 'data' .. '/mason/packages'
+    local volar_path = mason_packages .. '/vue-language-server/node_modules/@vue/language-server'
     local servers = {
-      -- clangd = {},
-      -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-      --
-      -- Some languages (like typescript) have entire language plugins that can be useful:
-      --    https://github.com/pmizio/typescript-tools.nvim
-      --
-      -- But for many setups, the LSP (`tsserver`) will work just fine
-      -- tsserver = {},
-      --
+      ts_ls = {
+        filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+        init_options = {
+          plugins = {
+            {
+              name = '@vue/typescript-plugin',
+              location = volar_path,
+              languages = { 'vue' },
+            },
+          },
+        },
+        settings = {
+          typescript = {
+            inlayHints = {
+              includeInlayParameterNameHints = 'all',
+              includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayVariableTypeHints = true,
+              includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+              includeInlayPropertyDeclarationTypeHints = true,
+              includeInlayFunctionLikeReturnTypeHints = true,
+              includeInlayEnumMemberValueHints = true,
+            },
+          },
+        },
+      },
+      volar = {
+        init_options = {
+          vue = {
+            hybridMode = true,
+          },
+        },
+      },
 
       lua_ls = {
         -- cmd = {...},
@@ -190,59 +216,9 @@ return {
 
     require('mason-lspconfig').setup {
       ensure_installed = { 'lua_ls', 'html', 'htmx', 'cssls', 'gopls', 'jsonls', 'ts_ls', 'volar' },
+      automatic_installation = true,
       handlers = {
         ['rust_analyzer'] = function() end,
-        ['volar'] = function()
-          require('lspconfig').volar.setup {
-            -- NOTE: Uncomment to restrict Volar to only Vue/Nuxt projects. This will enable Volar to work alongside other language servers (tsserver).
-            -- Might want this down the track
-            -- root_dir = require("lspconfig").util.root_pattern(
-            --   "vue.config.js",
-            --   "vue.config.ts",
-            --   "nuxt.config.js",
-            --   "nuxt.config.ts"
-            -- ),
-            init_options = {
-              vue = {
-                hybridMode = true,
-              },
-            },
-          }
-        end,
-
-        ['ts_ls'] = function()
-          local mason_packages = vim.fn.stdpath 'data' .. '/mason/packages'
-          local volar_path = mason_packages .. '/vue-language-server/node_modules/@vue/language-server'
-
-          require('lspconfig').ts_ls.setup {
-            -- NOTE: This is running in hybrid mode with Volar
-            filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
-            init_options = {
-              plugins = {
-                {
-                  name = '@vue/typescript-plugin',
-                  location = volar_path,
-                  languages = { 'vue' },
-                },
-              },
-            },
-            settings = {
-              typescript = {
-                inlayHints = {
-                  includeInlayParameterNameHints = 'all',
-                  includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-                  includeInlayFunctionParameterTypeHints = true,
-                  includeInlayVariableTypeHints = true,
-                  includeInlayVariableTypeHintsWhenTypeMatchesName = true,
-                  includeInlayPropertyDeclarationTypeHints = true,
-                  includeInlayFunctionLikeReturnTypeHints = true,
-                  includeInlayEnumMemberValueHints = true,
-                },
-              },
-            },
-          }
-        end,
-
         ['emmet_ls'] = function()
           capabilities.textDocument.completion.completionItem.snippetSupport = true
 
