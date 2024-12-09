@@ -21,35 +21,6 @@ return {
     },
   },
   config = function()
-    -- Brief aside: **What is LSP?**
-    --
-    -- LSP is an initialism you've probably heard, but might not understand what it is.
-    --
-    -- LSP stands for Language Server Protocol. It's a protocol that helps editors
-    -- and language tooling communicate in a standardized fashion.
-    --
-    -- In general, you have a "server" which is some tool built to understand a particular
-    -- language (such as `gopls`, `lua_ls`, `rust_analyzer`, etc.). These Language Servers
-    -- (sometimes called LSP servers, but that's kind of like ATM Machine) are standalone
-    -- processes that communicate with some "client" - in this case, Neovim!
-    --
-    -- LSP provides Neovim with features like:
-    --  - Go to definition
-    --  - Find references
-    --  - Autocompletion
-    --  - Symbol Search
-    --  - and more!
-    --
-    -- Thus, Language Servers are external tools that must be installed separately from
-    -- Neovim. This is where `mason` and related plugins come into play.
-    --
-    -- If you're wondering about lsp vs treesitter, you can check out the wonderfully
-    -- and elegantly composed help section, `:help lsp-vs-treesitter`
-
-    --  This function gets run when an LSP attaches to a particular buffer.
-    --    That is to say, every time a new file is opened that is associated with
-    --    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
-    --    function will be executed to configure the current buffer
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('kickstart-lsp-attach', {
         clear = true,
@@ -174,13 +145,6 @@ return {
     --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
     local servers = {
       -- clangd = {},
-      gopls = {},
-      pyright = {},
-      -- rust_analyzer = {},
-      html = {},
-      -- htmx = {},
-      cssls = {},
-      jsonls = {},
       -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
       --
       -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -225,18 +189,13 @@ return {
     }
 
     require('mason-lspconfig').setup {
-      ensure_installed = { 'lua_ls', 'html', 'htmx', 'cssls', 'gopls', 'jsonls' },
+      ensure_installed = { 'lua_ls', 'html', 'htmx', 'cssls', 'gopls', 'jsonls', 'ts_ls', 'volar' },
       handlers = {
         ['rust_analyzer'] = function() end,
         ['volar'] = function()
           require('lspconfig').volar.setup {
-            -- NOTE: Uncomment to enable volar in file types other than vue.
-            -- (Similar to Takeover Mode)
-
-            -- filetypes = { "vue", "javascript", "typescript", "javascriptreact", "typescriptreact", "json" },
-
             -- NOTE: Uncomment to restrict Volar to only Vue/Nuxt projects. This will enable Volar to work alongside other language servers (tsserver).
-
+            -- Might want this down the track
             -- root_dir = require("lspconfig").util.root_pattern(
             --   "vue.config.js",
             --   "vue.config.ts",
@@ -245,33 +204,39 @@ return {
             -- ),
             init_options = {
               vue = {
-                hybridMode = false,
+                hybridMode = true,
               },
-              -- NOTE: This might not be needed. Uncomment if you encounter issues.
+            },
+          }
+        end,
 
-              -- typescript = {
-              --   tsdk = vim.fn.getcwd() .. "/node_modules/typescript/lib",
-              -- },
+        ['ts_ls'] = function()
+          local mason_packages = vim.fn.stdpath 'data' .. '/mason/packages'
+          local volar_path = mason_packages .. '/vue-language-server/node_modules/@vue/language-server'
+
+          require('lspconfig').ts_ls.setup {
+            -- NOTE: This is running in hybrid mode with Volar
+            filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+            init_options = {
+              plugins = {
+                {
+                  name = '@vue/typescript-plugin',
+                  location = volar_path,
+                  languages = { 'vue' },
+                },
+              },
             },
             settings = {
               typescript = {
                 inlayHints = {
-                  enumMemberValues = {
-                    enabled = true,
-                  },
-                  functionLikeReturnTypes = {
-                    enabled = true,
-                  },
-                  propertyDeclarationTypes = {
-                    enabled = true,
-                  },
-                  parameterTypes = {
-                    enabled = true,
-                    suppressWhenArgumentMatchesName = true,
-                  },
-                  variableTypes = {
-                    enabled = true,
-                  },
+                  includeInlayParameterNameHints = 'all',
+                  includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                  includeInlayFunctionParameterTypeHints = true,
+                  includeInlayVariableTypeHints = true,
+                  includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+                  includeInlayPropertyDeclarationTypeHints = true,
+                  includeInlayFunctionLikeReturnTypeHints = true,
+                  includeInlayEnumMemberValueHints = true,
                 },
               },
             },
@@ -279,7 +244,6 @@ return {
         end,
 
         ['emmet_ls'] = function()
-          -- local configs = require 'lspconfig/configs'
           capabilities.textDocument.completion.completionItem.snippetSupport = true
 
           require('lspconfig').emmet_ls.setup {
@@ -305,41 +269,6 @@ return {
                 options = {
                   -- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
                   ['bem.enabled'] = true,
-                },
-              },
-            },
-          }
-        end,
-
-        ['ts_ls'] = function()
-          local mason_packages = vim.fn.stdpath 'data' .. '/mason/packages'
-          local volar_path = mason_packages .. '/vue-language-server/node_modules/@vue/language-server'
-
-          require('lspconfig').ts_ls.setup {
-            -- NOTE: To enable hybridMode, change HybrideMode to true above and uncomment the following filetypes block.
-            -- WARN: THIS MAY CAUSE HIGHLIGHTING ISSUES WITHIN THE TEMPLATE SCOPE WHEN TSSERVER ATTACHES TO VUE FILES
-
-            -- filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
-            init_options = {
-              plugins = {
-                {
-                  name = '@vue/typescript-plugin',
-                  location = volar_path,
-                  languages = { 'vue' },
-                },
-              },
-            },
-            settings = {
-              typescript = {
-                inlayHints = {
-                  includeInlayParameterNameHints = 'all',
-                  includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-                  includeInlayFunctionParameterTypeHints = true,
-                  includeInlayVariableTypeHints = true,
-                  includeInlayVariableTypeHintsWhenTypeMatchesName = true,
-                  includeInlayPropertyDeclarationTypeHints = true,
-                  includeInlayFunctionLikeReturnTypeHints = true,
-                  includeInlayEnumMemberValueHints = true,
                 },
               },
             },
