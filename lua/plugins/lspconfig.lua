@@ -179,7 +179,7 @@ return {
           },
         },
       },
-
+      -- emmet_language_server {},
       lua_ls = {
         -- cmd = {...},
         -- filetypes = { ...},
@@ -219,37 +219,6 @@ return {
       automatic_installation = true,
       handlers = {
         ['rust_analyzer'] = function() end,
-        ['emmet_ls'] = function()
-          capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-          require('lspconfig').emmet_ls.setup {
-            -- on_attach = on_attach,
-            capabilities = capabilities,
-            filetypes = {
-              'css',
-              'eruby',
-              'html',
-              'javascript',
-              'javascriptreact',
-              'less',
-              'sass',
-              'typescript',
-              'scss',
-              'svelte',
-              'pug',
-              'typescriptreact',
-              'vue',
-            },
-            init_options = {
-              html = {
-                options = {
-                  -- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
-                  ['bem.enabled'] = true,
-                },
-              },
-            },
-          }
-        end,
 
         function(server_name)
           local server = servers[server_name] or {}
