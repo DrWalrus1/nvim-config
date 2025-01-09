@@ -37,6 +37,8 @@ require('lazy').setup({
   'tpope/vim-rhubarb',
   'tpope/vim-surround',
   'ThePrimeagen/vim-be-good',
+  'stevearc/dressing.nvim',
+  'rasulomaroff/reactive.nvim',
   -- TODO: add harpoon
 
   -- "gc" to comment visual regions/lines

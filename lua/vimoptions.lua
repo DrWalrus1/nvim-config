@@ -9,7 +9,7 @@ return {
     vim.keymap.set('n', '<leader>tn', vim.cmd.tabNext, { desc = '[T]ab [n]ext' })
     vim.keymap.set('n', '<leader>tp', vim.cmd.tabprevious, { desc = '[T]ab [P]revious' })
     vim.keymap.set('n', '<leader>tc', vim.cmd.tabclose, { desc = '[T]ab [C]lose' })
-    vim.keymap.set('n', 'ya', ':%y+<CR>', { desc = '[Y]ank [A]ll lines to system clipboard' })
+    vim.keymap.set('n', '<leader>ya', ':%y+<CR>', { desc = '[Y]ank [A]ll lines to system clipboard' })
 
     vim.g.netrw_banner = 0
     -- Set to true if you have a Nerd Font installed and selected in the terminal
