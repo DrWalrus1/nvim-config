@@ -12,6 +12,7 @@ return {
     vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
     vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
     vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+    vim.keymap.set('n', '<leader>bd', ':bd<CR>', { desc = 'Close current [B]uffer' })
 
     vim.keymap.set('n', '<leader>da', function()
       vim.diagnostic.setqflist { open = true }
