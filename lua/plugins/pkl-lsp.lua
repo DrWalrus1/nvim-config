@@ -13,7 +13,7 @@ return {
     'L3MON4D3/LuaSnip',
   },
   build = function()
-    require('pkl-neovim.internal').init()
+    require('pkl-neovim').init()
 
     -- Set up syntax highlighting.
     vim.cmd 'TSInstall! pkl'
