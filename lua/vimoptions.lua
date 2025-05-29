@@ -21,6 +21,7 @@ return {
     --  For more options, you can see `:help option-list`
     set.shiftwidth = 2
     set.tabstop = 2
+    set.lbr = true
 
     -- Make line numbers default
     set.number = true
