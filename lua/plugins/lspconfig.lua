@@ -219,6 +219,19 @@ return {
       automatic_installation = true,
       handlers = {
         ['rust_analyzer'] = function() end,
+        ['gopls'] = function()
+          require('lspconfig')['gopls'].setup {
+            settings = {
+              gopls = {
+                -- Add your build flags here
+                buildFlags = { '-tags=dev' }, -- Example: Add an "integration" build tag
+                -- You can add other gopls settings here as well
+                -- staticcheck = true,
+                -- completeUnimported = true,
+              },
+            },
+          }
+        end,
 
         function(server_name)
           local server = servers[server_name] or {}
