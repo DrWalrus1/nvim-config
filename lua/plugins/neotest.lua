@@ -44,6 +44,12 @@ return {
       vim.keymap.set('n', '<leader>ts', function()
         neotest.summary.toggle()
       end, { desc = 'Show [T]est [S]ummary' })
+      vim.keymap.set('n', '<leader>to', function()
+        neotest.output.open()
+      end, { desc = 'Show [T]est [O]utput' })
+      vim.keymap.set('n', '<leader>tp', function()
+        neotest.output_panel.toggle()
+      end, { desc = 'Show [T]est output [p]anel' })
     end,
   },
 }
