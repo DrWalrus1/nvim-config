@@ -10,7 +10,7 @@ return {
       'neovim/nvim-lspconfig',
     },
     opts = {
-      ensure_installed = { 'lua_ls', 'html', 'htmx', 'cssls', 'gopls', 'jsonls', 'vue_ls' },
+      ensure_installed = { 'lua_ls', 'vtsls' },
       automatic_installation = true,
     },
   },
