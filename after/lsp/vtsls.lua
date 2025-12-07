@@ -1,3 +1,6 @@
+-- [[
+--    Because Vue also requires a typescript language server to be run. Alter the config of vtsls to run on vue files using the vue plugin
+-- ]]
 local vtsls_path = vim.fn.expand '$MASON/packages' .. '/vtsls' .. '/node_modules/@vtsls/language-server/bin/vtsls.js'
 local vue_language_server_path = vim.fn.expand '$MASON/packages' .. '/vue-language-server' .. '/node_modules/@vue/language-server'
 local vue_plugin = {
