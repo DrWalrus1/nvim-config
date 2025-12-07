@@ -1,3 +1,4 @@
+local vtsls_path = vim.fn.expand '$MASON/packages' .. '/vtsls' .. '/node_modules/@vtsls/language-server/bin/vtsls.js'
 local vue_language_server_path = vim.fn.expand '$MASON/packages' .. '/vue-language-server' .. '/node_modules/@vue/language-server'
 local vue_plugin = {
   name = '@vue/typescript-plugin',
@@ -6,7 +7,7 @@ local vue_plugin = {
   configNamespace = 'typescript',
 }
 return {
-  cmd = { 'vtsls', '--stdio' },
+  cmd = { vtsls_path, '--stdio' },
   filetypes = {
     'javascript',
     'javascriptreact',
