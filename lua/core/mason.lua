@@ -10,7 +10,7 @@ return {
       'neovim/nvim-lspconfig',
     },
     opts = {
-      ensure_installed = { 'lua_ls', 'vtsls', 'netcoredbg', 'omnisharp', 'htmx' },
+      ensure_installed = { 'lua_ls', 'vtsls', 'omnisharp', 'htmx' },
       automatic_installation = true,
     },
   },
