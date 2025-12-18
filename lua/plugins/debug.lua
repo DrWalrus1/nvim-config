@@ -1,3 +1,4 @@
+local dotnet = require 'config.nvim-dap-dotnet'
 -- debug.lua
 --
 -- Shows how to use the DAP plugin to debug your code.
@@ -28,6 +29,12 @@ return {
     local dap = require 'dap'
     local dapui = require 'dapui'
     local dapvirtualtext = require 'nvim-dap-virtual-text'
+    local netcoredbg_path = vim.fn.expand '$MASON/packages' .. '/netcoredbg/netcoredbg'
+    local netcoredbg_adapter = {
+      type = 'executable',
+      command = netcoredbg_path,
+      args = { '--interpreter=vscode' },
+    }
 
     dapui.setup()
     dapvirtualtext.setup {}
@@ -35,19 +42,15 @@ return {
 
     ---.NET----------------------------
 
-    dap.adapters.coreclr = {
-      type = 'executable',
-      command = 'netcoredbg',
-      args = { '--interpreter=vscode -- dotnet run' },
-    }
-
+    dap.adapters.netcoredbg = netcoredbg_adapter
+    dap.adapters.coreclr = netcoredbg_adapter
     dap.configurations.cs = {
       {
         type = 'coreclr',
         name = 'launch - netcoredbg',
         request = 'launch',
         program = function()
-          return vim.fn.input('Path to dll: ', vim.fn.getcwd() .. '/bin/Debug/net8.0/', 'file')
+          return dotnet.build_dll_path()
         end,
         justMyCode = false,
         stopAtEntry = false,
@@ -104,9 +107,9 @@ return {
 
     -- Basic debugging keymaps, feel free to change to your liking!
     vim.keymap.set('n', '<F5>', dap.continue, { desc = 'Debug: Start/Continue' })
-    vim.keymap.set('n', '<F1>', dap.step_into, { desc = 'Debug: Step Into' })
-    vim.keymap.set('n', '<F2>', dap.step_over, { desc = 'Debug: Step Over' })
-    vim.keymap.set('n', '<F3>', dap.step_out, { desc = 'Debug: Step Out' })
+    vim.keymap.set('n', '<leader>di', dap.step_into, { desc = '[D]ebug: Step [I]nto' })
+    vim.keymap.set('n', '<leader>dw', dap.step_over, { desc = 'Debug: Step Over' })
+    vim.keymap.set('n', '<leader>do', dap.step_out, { desc = 'Debug: Step Out' })
     vim.keymap.set('n', '<leader>b', dap.toggle_breakpoint, { desc = 'Debug: Toggle Breakpoint' })
     vim.keymap.set('n', '<F10>', dap.terminate, { desc = 'Debug: Terminate' })
     vim.keymap.set('n', '<leader>B', function()
