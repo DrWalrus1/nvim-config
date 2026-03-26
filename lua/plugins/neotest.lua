@@ -37,6 +37,9 @@ return {
       vim.keymap.set('n', '<leader>tt', function()
         neotest.run.run()
       end, { desc = 'Run closest [T]est' })
+      vim.keymap.set('n', '<leader>td', function()
+        neotest.run.run { strategy = 'dap' }
+      end, { desc = '[D]ebug closest [T]est' })
       vim.keymap.set('n', '<leader>tf', function()
         neotest.run.run(vim.fn.expand '%')
       end, { desc = 'Run Test File' })
